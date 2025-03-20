@@ -70,3 +70,69 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y =hwy)) +
   facet_grid (class ~ manufacturer)
 
+# Exercise 1 : I would use an area chart, changing the colour of the area and keeping only the main line.
+
+# Exercise 2 : Prediction = We get two plots with x = displ and y = hwy using color = drv.
+# One plot is geom_point, and the other is geom_smooth. se = false means we don't get a confidence interval.
+# Confidence interval is the shadowy area close/surrounding the main line. Let's see!
+
+ggplot(data = mpg, mapping = aes(x = displ, y =hwy, color = drv)) +
+  geom_point()+
+  geom_smooth(se = FALSE)
+# Correct! (The prediction could have included the amount of lines generated. Can you guess?)
+
+# Exercise 3 : Using ?geom_smooth() ->  Should this layer be included in the legends?
+# NA, the default, includes if any aesthetics are mapped. FALSE never includes, 
+# and TRUE always includes. It can also be a named logical vector to finely 
+# select the aesthetics to display.
+
+# Exercise 4 : See Exercise 2 (Display confidence interval around smooth? 
+# (TRUE by default, see level to control.)
+
+# Exercise 5 : The plots will be exactly the same, See for yourself!
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot() +
+  geom_point(
+    data = mpg,
+    mapping = aes(x = displ, y = hwy)
+  ) +
+  geom_smooth(
+    data = mpg,
+    mapping = aes(x = displ, y = hwy)
+  )
+
+# Exercise 6 - Execute each pack of commands seperately for each graph.
+
+ggplot(data = mpg, aes(x = displ, y = hwy)) +
+  geom_point()+
+  geom_smooth(se = FALSE)
+
+ggplot(data = mpg, aes(x = displ, y = hwy)) +
+  geom_point()+
+  geom_smooth(se = FALSE, aes(group = drv))
+
+ggplot(data = mpg, aes(x = displ, y = hwy, colour = drv))+
+  geom_point()+
+  geom_smooth(se = FALSE)
+
+ggplot(data = mpg, aes(x = displ, y = hwy))+
+  geom_point(aes(colour = drv))+
+  geom_smooth(se = FALSE)
+
+ggplot(data = mpg, aes(x = displ, y = hwy))+
+  geom_point(aes(colour = drv))+
+  geom_smooth(se = FALSE, aes(linetype = drv))
+
+ggplot(data = mpg, aes(x = displ, y = hwy))+
+  geom_point(aes(colour = drv)) # Don't know how to get the white border around points.
+
+# Exercise 1 Using ?stat_summary we see it uses geom = "pointrange"
+ggplot(data = diamonds, mapping = aes(x = cut, y = depth)) +
+  geom_pointrange(stat = "summary", fun.min = min, fun.max = max, fun = median)
+# Sadly ymin and ymax are deprecated, so we had to change up the code.
+
+# Exercise 2 (To be continued..)
