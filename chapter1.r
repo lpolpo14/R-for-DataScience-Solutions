@@ -16,7 +16,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x =class, y = drv))
 # It is not useful due to overlapping values.
 
-# Exercise 1 - The color = "blue" Should be passed as a parameter to geom_point, not aes.
+# Exercise 1 - The color = "blue" Should be passed as a parameter to geom_point, not to aes.
 
 # Exercise 2 - using ?mpg we can see the various values. Yes, we can see the values using simply mpg.
 
@@ -29,7 +29,7 @@ ggplot(data = mpg) +
 # Exercise 4
 ggplot(data = mpg) +
   geom_point(mapping = aes(color = displ, x = class, y = cty, size = displ))
-# Conclusion : There will be analogous.
+# Conclusion : They will be analogous.
 
 # Exercise 5 : The stroke aesthetic modifies the width of the border.
 
