@@ -133,6 +133,6 @@ ggplot(data = mpg, aes(x = displ, y = hwy))+
 # Exercise 1 Using ?stat_summary we see it uses geom = "pointrange"
 ggplot(data = diamonds, mapping = aes(x = cut, y = depth)) +
   geom_pointrange(stat = "summary", fun.min = min, fun.max = max, fun = median)
-# Sadly ymin and ymax are deprecated, so we had to change up the code.
+# Sadly ymin and ymax are deprecated, so we had to change up the code. Read the Documentation!
 
 # Exercise 2 (To be continued..)
