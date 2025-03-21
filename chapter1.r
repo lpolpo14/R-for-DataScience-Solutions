@@ -188,7 +188,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy))+
 ggplot(data = mpg) +
   geom_boxplot(aes(x = class, y = cty))
 
-# Exercise 1 - We will solve this with a better way in the future
+# Exercise 1 - We will solve this in a better way in the future
 bar <- ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = cut),
            show.legend = FALSE, width=1) +
