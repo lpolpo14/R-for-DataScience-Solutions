@@ -135,4 +135,55 @@ ggplot(data = diamonds, mapping = aes(x = cut, y = depth)) +
   geom_pointrange(stat = "summary", fun.min = min, fun.max = max, fun = median)
 # Sadly ymin and ymax are deprecated, so we had to change up the code. Read the Documentation!
 
-# Exercise 2 (To be continued..)
+# Exercise 2 Using ?geom_bar we get: "There are two types of bar charts: geom_bar() and 
+# geom_col(). geom_bar() makes the height of the bar proportional to the number of cases 
+# in each group (or if the weight aesthetic is supplied, the sum of the weights). 
+# If you want the heights of the bars to represent values in the data, use geom_col() instead."
+
+# Exercise 3 : We will examine bar charts, boxplots, scatterplots and the line.
+# geom_point - stat = identity
+# geom_line - stat = identity
+# geom_smooth - stat = smooth
+# geom_bar - stat = count
+# geom_boxplot - stat = boxplot
+# One common identity is the name (geometrical items start with geom, while the statistical
+# transformations with stat)
+
+# Exercise 4: Using ?stat_smooth we get: These are calculated by the 'stat' part of layers and can be accessed with delayed evaluation.
+# stat_smooth() provides the following variables, some of which depend on the orientation:
+# after_stat(y) or after_stat(x)
+# Predicted value.
+# after_stat(ymin) or after_stat(xmin)
+# Lower pointwise confidence interval around the mean.
+# after_stat(ymax) or after_stat(xmax)
+# Upper pointwise confidence interval around the mean.
+# after_stat(se)
+# Standard error.
+# To summarize: it can be accessed with delayed evaluation and it calculates the above variables.
+
+# Exercise 5: Let's find out using code!
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = after_stat(prop))) # ..prop.. is deprecated.
+# We can see that the percentages are all 1!
+ggplot(data = diamonds) +
+  geom_bar(
+    mapping = aes(x = cut, fill = color, y = after_stat(prop),
+    )
+)
+# Conclusion : Group is needed so as to apply the statistical transformation properly to each discrete partition.
+
+# Exercise 1: Overplotting may be present, so lets add jittering.
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy))+
+  geom_point(position = "jitter")
+
+# Exercise 2: using ?geom_jitter we can see it is width and height, which default to
+# 40% of the resolution of the data.
+
+# Exercise 3: Both use dots to make scatterplots, geom_count doesn't use randomness though,
+# it simply makes increments the size of a point where there are overlapping points.
+# geom_jitter on the other hand uses random variation to the location.
+
+# Exercise 4: Using ?geom_boxplot we can see it is dodge2.
+# y must be continuous and x should be discrete (or partitioned correctly)
+ggplot(data = mpg) +
+  geom_boxplot(aes(x = class, y = cty))
