@@ -187,3 +187,31 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy))+
 # y must be continuous and x should be discrete (or partitioned correctly)
 ggplot(data = mpg) +
   geom_boxplot(aes(x = class, y = cty))
+
+# Exercise 1 - We will solve this with a better way in the future
+bar <- ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = cut),
+           show.legend = FALSE, width=1) +
+  theme(aspect.ratio = 1) +
+  labs(x = NULL, y = NULL)
+bar + coord_polar()
+
+# Exercise 2 - Changes the names of the x and y labels
+
+# Exercise 3 - coord_map() projects a portion of the earth, 
+# which is approximately spherical, onto a flat 2D plane using any 
+# projection defined by the mapproj package. Map projections do not, 
+# in general, preserve straight lines, so this requires considerable 
+# computation. coord_quickmap() is a quick approximation that does 
+# preserve straight lines. It works best for smaller areas closer
+# to the equator.
+#Both coord_map() and coord_quickmap() are superseded by coord_sf(),
+# and should no longer be used in new code.
+
+# Exercise 4 : coord_fixed -> A fixed scale coordinate system forces a specified ratio between the physical
+# representation of data units on the axes.
+# geom_abline -> These geoms add reference lines (sometimes called rules) to a plot, either horizontal,
+# vertical, or diagonal (specified by slope and intercept).
+# These are useful for annotating plots.
+# Conclusion : There is a linear relation between x and y. geom_abline() allows
+# us to see more clearly by drawing a reference line with slope 1 and intercept = 0
