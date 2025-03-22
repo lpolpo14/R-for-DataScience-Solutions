@@ -104,7 +104,14 @@ not_cancelled <- flights %>% filter(!is.na(dep_delay), !is.na(arr_delay))
 
 # Exercise 3 : is.na(arr_delay) is enough. (Some flights may never reach the destination sadly..)
 
-# Exercise 4 : I will leave it for another day. (!!!)
+# Exercise 4 :
+(cancelled_per_day <- flights %>%
+  group_by(year,month,day) %>% # Could also group per airport
+  summarise(n = sum(is.na(arr_time)), mean_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  arrange(desc(n)))
+
+ggplot(data = cancelled_per_day, mapping = aes(x = mean_delay, y = n)) +
+  geom_point()
 
 # Exercise 5
 mean_delay_by_carrier <- flights %>% group_by(carrier) %>% 
@@ -153,3 +160,64 @@ flights %>%
   summarise(on_time = mean(on_time), n = n()) %>%
   filter(min_rank(on_time) == 1) # The interesting idea!
 
+# Exercise 3
+
+flights %>% 
+  group_by(sched_dep_time) %>%
+  summarize(mean_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  arrange(mean_delay)
+
+# Exercise 4
+
+dest_delay <- flights %>%
+  filter(!is.na(arr_delay)) %>%
+  group_by(dest) %>%
+  summarize(total_delay = sum(arr_delay))
+
+flights %>% # The interesting idea here is the fact you can group multiple times as long as you don't summarise!
+  filter(!is.na(arr_delay) & arr_delay > 0) %>%
+  group_by(dest) %>%
+  mutate(total_delay = sum(arr_time)) %>%
+  group_by(dest, flight) %>%
+  mutate(portion = arr_delay/total_delay) %>%
+  select(total_delay, portion, dest, flight)
+
+# Exercise 5
+
+flights %>%
+  filter(!is.na(arr_delay)) %>%
+  arrange(origin,year,month,day, sched_dep_time) %>%
+  group_by(origin) %>%
+  mutate(previous_delay = lag(dep_delay)) %>%
+  filter(!is.na(previous_delay), previous_delay > 500) %>%
+  select(year:day,sched_dep_time, dep_time,previous_delay)
+# Changing the constant we can see the linear relation for most cases.
+
+# Exercise 6
+(fastest_flight <- flights %>%
+  group_by(origin,dest) %>%
+  filter(!is.na(air_time)) %>%
+  summarise(fastest = min(air_time), mean_air_time = mean(air_time)) %>%
+  filter(mean_air_time >= fastest + 0))
+# The same can be tried for slowest
+# Alternative approach.
+(fastest_flight <- flights %>%
+    group_by(origin,dest) %>%
+    filter(!is.na(air_time)) %>%
+    mutate(fastest = min(air_time)) %>%
+    group_by(origin,dest,fastest) %>%
+    summarise(mean_air_time = mean(air_time)) %>%
+    filter(mean_air_time >= fastest + 0))
+
+# Exercise 7
+# Notice, In this example we include airports that have only 1 carrier that visit them.
+# To change that, instead of the first summarise we must use mutate and then filter!
+(dest2 <- flights %>%
+  group_by(dest) %>%
+  summarise(offers = n_distinct(carrier)) %>%
+  arrange(desc(offers)))
+
+(Carriers <- flights %>%
+    group_by(carrier) %>%
+    summarise(offers2 = n_distinct(dest)) %>%
+    arrange(desc(offers2)))
