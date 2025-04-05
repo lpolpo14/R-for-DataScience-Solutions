@@ -52,3 +52,51 @@ str_view(words, "x$")
 str_view(words, "^...$")
 str_view(words,".{7,}")
 
+# Exercise 1
+str_view(words, "^[aeyuio]")
+str_view(words, "^[^aeyuio]+$")
+str_view(words, "[^e]ed$")
+str_view(words,"(ize|ing)$")
+
+# Exercise 2
+str_view(words, ".*ie.*")
+str_view(words, ".*cei.*")
+
+# Exercise 3
+str_view(words, ".*q[^u].*")  # Always false
+str_view(words, ".*q[u].*")
+
+# Exercise 4
+str_view(words, ".*or$")
+
+# Exercise 5 Skipping this one.
+
+# Exercise 1 ? = {0,1} * = {0,}, + = {1,} 
+
+# Exercise 2
+
+str_view(words, "^.*$") # Anything
+str_view("{anything}", "\\{.+\\}")
+str_view("1999-99-99","\\d{4}-\\d{2}-\\d{2}") # Date albeit weird
+str_view("\\\\\\\\","\\\\{4}")
+
+# Exercise 3
+
+str_view(words, "^[^euioa]{3,}.*")
+str_view(words, ".*[euioa]{3,}.*")
+str_view(words, ".*([^euioa][euioa]){2}.*")
+
+# Exercise 4 https://regexcrossword.com
+
+# Exercise 1
+str_view("aaabca","(.)\\1\\1") # Three repeating characters (Or number 1s if you don't change \1)
+str_view("abba", "(.)(.)\\2\\1")
+str_view("abab","(..)\\1")
+str_view("aXaXa", "(.).\\1.\\1")
+str_view("ABC_anythinghere_CBA","(.)(.)(.).*\\3\\2\\1")
+
+# Exercise 2
+
+str_view(words, "^(.).*\\1$")
+str_view(words, ".*(..).*\\1.*")
+str_view(words, ".*(.).*\\1.*\\1.*")
