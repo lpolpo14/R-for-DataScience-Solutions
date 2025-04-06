@@ -100,3 +100,61 @@ str_view("ABC_anythinghere_CBA","(.)(.)(.).*\\3\\2\\1")
 str_view(words, "^(.).*\\1$")
 str_view(words, ".*(..).*\\1.*")
 str_view(words, ".*(.).*\\1.*\\1.*")
+
+# Exercise 1 - I will use str_detect()
+
+s1 <- str_detect(words, "^x.*") 
+s2 <- str_detect(words, ".*x$")
+words[s2 | s1]
+s1 <- str_detect(words, "^[eyuioa].*[^eyuioa]$")
+words[s1]
+s1 <- str_detect(words, "e")
+s2 <- str_detect(words, "y")
+s3 <- str_detect(words, "u")
+s4 <- str_detect(words, "i")
+s5 <- str_detect(words, "o")
+s6 <- str_detect(words, "a")
+words[s1 & s2 & s3 & s4 & s5 & s6] # no.
+words[s1 & s2 & s3 & s6]
+df <- tibble(word = words, i = seq_along(word))
+df %>% mutate(vowel_count = str_count(word, "[aeiou]")) %>% arrange(desc(vowel_count))
+df %>% mutate(vowel_count = str_count(word, "[aeiou]"),
+              percent = vowel_count/str_length(word)) %>% 
+  arrange(desc(percent))
+
+# Exercise 1 : We could just add ^red$ or \s for whitespace
+# Exercise 2 :
+s1 <- str_subset(sentences, "^[a-zA-Z]+")
+s2 <- str_extract(s1,"^[a-zA-Z]+")
+s2
+
+s1 <- str_subset(sentences, "[a-zA-Z]*ing")
+s2 <- str_extract_all(s1, "[a-zA-Z]*ing")
+s2
+
+# I am not doing the last one.
+
+# Exercise 1
+number <- "(one|two|three|four|five|six|seven|eight|nine|ten) ([^ ]+)" #catches often etc..
+has_number <- sentences %>% str_subset(number)
+has_number %>% str_extract(number)
+
+# Exercise 2
+
+apostrophe <- "([^ ]+)('[^ ]+)"
+has_apo <- sentences %>% str_subset(apostrophe)
+has_apo %>% str_match(apostrophe)
+
+# Exercise 1
+
+str_replace_all(c("a/b","a\\b", "/\\"), "\\\\", "/")
+
+# Exercise 2
+
+str_replace_all(sentences, c("A" = "a", "T" = "t", "S" = "s")) # etc
+
+# Exercise 3 
+
+res <- str_replace(words, "(^[a-zA-Z])(.*)([a-zA-Z]$)", "\\3\\2\\1")
+result <- append(res,words)
+result[duplicated(result)]
