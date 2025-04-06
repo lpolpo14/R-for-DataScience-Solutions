@@ -158,3 +158,31 @@ str_replace_all(sentences, c("A" = "a", "T" = "t", "S" = "s")) # etc
 res <- str_replace(words, "(^[a-zA-Z])(.*)([a-zA-Z]$)", "\\3\\2\\1")
 result <- append(res,words)
 result[duplicated(result)]
+
+# Exercise 1
+sentence <- "apples, pears, and bananas"
+str_view(sentence, boundary("word"))
+
+# Exercise 2
+sentence <- "apples, pears, and bananas"
+str_split(sentence, " ") # It keeps the commas
+
+# Exercise 3
+str_split(sentence, "") # Splits every character
+# Documentation : An empty pattern, "", is equivalent to boundary("character").
+
+# Exercise 1
+cw <- c("\\", "a", "ab\\ab")
+str_detect(cw, regex("\\\\"))
+str_detect(cw, fixed("\\")) # Not a regex.
+
+# Exercise 2 We have to count the occurence of each word 
+wordpersentence <- sentences %>% str_split(boundary("word")) # list of 720 | use extract_all
+wordsentenceflatten <- unlist(wordpersentence)
+allwords <- tibble(word = str_to_lower(wordsentenceflatten))
+allwords %>% count(word, sort = TRUE)
+
+# Exercise 1 stri_split_regex, stri_duplicated, stri_rand_strings
+
+
+# Exercise 2 : Using locale.
